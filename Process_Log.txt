@@ -1,0 +1,110 @@
+.\misc files\header_animations.py
+.\misc files\header_common.py
+.\misc files\header_dialogs.py
+.\misc files\header_factions.py
+.\misc files\header_game_menus.py
+.\misc files\header_ground_types.py
+.\misc files\header_items.py
+.\misc files\header_item_modifiers.py
+.\misc files\header_map_icons.py
+.\misc files\header_meshes.py
+.\misc files\header_mission_templates.py
+.\misc files\header_mission_types.py
+.\misc files\header_music.py
+.\misc files\header_operations.py
+.\misc files\header_particle_systems.py
+.\misc files\header_parties.py
+.\misc files\header_postfx.py
+.\misc files\header_presentations.py
+.\misc files\header_quests.py
+.\misc files\header_scenes.py
+.\misc files\header_scene_props.py
+.\misc files\header_skills.py
+.\misc files\header_skins.py
+.\misc files\header_sounds.py
+.\misc files\header_strings.py
+.\misc files\header_tableau_materials.py
+.\misc files\header_terrain_types.py
+.\misc files\header_triggers.py
+.\misc files\header_troops.py
+.\misc files\ID_animations.py
+.\misc files\ID_factions.py
+.\misc files\ID_info_pages.py
+.\misc files\ID_items.py
+.\misc files\ID_map_icons.py
+.\misc files\ID_menus.py
+.\misc files\ID_meshes.py
+.\misc files\ID_mission_templates.py
+.\misc files\ID_music.py
+.\misc files\ID_particle_systems.py
+.\misc files\ID_parties.py
+.\misc files\ID_party_templates.py
+.\misc files\ID_postfx_params.py
+.\misc files\ID_presentations.py
+.\misc files\ID_quests.py
+.\misc files\ID_scenes.py
+.\misc files\ID_scene_props.py
+.\misc files\ID_scripts.py
+.\misc files\ID_skills.py
+.\misc files\ID_sounds.py
+.\misc files\ID_strings.py
+.\misc files\ID_tableau_materials.py
+.\misc files\ID_troops.py
+.\misc files\process_animations.py
+.\misc files\process_common.py
+.\misc files\process_dialogs.py
+.\misc files\process_factions.py
+.\misc files\process_game_menus.py
+.\misc files\process_global_variables.py
+.\misc files\process_global_variables_unused.py
+.\misc files\process_info_pages.py
+.\misc files\process_init.py
+.\misc files\process_items.py
+.\misc files\process_line_correction.py
+.\misc files\process_map_icons.py
+.\misc files\process_meshes.py
+.\misc files\process_mission_tmps.py
+.\misc files\process_music.py
+.\misc files\process_operations.py
+.\misc files\process_particle_sys.py
+.\misc files\process_parties.py
+.\misc files\process_party_tmps.py
+.\misc files\process_postfx.py
+.\misc files\process_presentations.py
+.\misc files\process_quests.py
+.\misc files\process_scenes.py
+.\misc files\process_scene_props.py
+.\misc files\process_scripts.py
+.\misc files\process_simple_triggers.py
+.\misc files\process_skills.py
+.\misc files\process_skins.py
+.\misc files\process_sounds.py
+.\misc files\process_strings.py
+.\misc files\process_tableau_materials.py
+.\misc files\process_tags_unused.py
+.\misc files\process_troops.py
+已复制        85 个文件。
+.\ID_animations.py
+.\ID_factions.py
+.\ID_info_pages.py
+.\ID_items.py
+.\ID_map_icons.py
+.\ID_menus.py
+.\ID_meshes.py
+.\ID_mission_templates.py
+.\ID_music.py
+.\ID_particle_systems.py
+.\ID_parties.py
+.\ID_party_templates.py
+.\ID_postfx_params.py
+.\ID_presentations.py
+.\ID_quests.py
+.\ID_scenes.py
+.\ID_scene_props.py
+.\ID_scripts.py
+.\ID_skills.py
+.\ID_sounds.py
+.\ID_strings.py
+.\ID_tableau_materials.py
+.\ID_troops.py
+已复制        23 个文件。
