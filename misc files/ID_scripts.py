@@ -707,5 +707,9 @@ script_set_horse_train_max_progress = 705
 script_cf_horse_has_modifier = 706
 script_get_double_wings_position = 707
 script_init_keys_array = 708
+script_diplomacy_start_ally_between_kingdoms = 709
+script_cf_cancel_ally = 710
+script_event_kingdom_make_ally_with_kingdom = 711
+script_cf_allies_join_in_war = 712
 
 

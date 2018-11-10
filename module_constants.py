@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 from ID_items import *
 from ID_quests import *
 from ID_factions import *
@@ -197,6 +198,9 @@ slot_faction_ai_current_state_started   = 97 #
 slot_faction_ai_last_decisive_event     = 98 #capture a fortress or declaration of war
 
 slot_faction_morale_of_player_troops    = 99
+slot_faction_ally                       = 100
+slot_faction_ally_in_war                = 105
+slot_caravan_number                     = 100
 
 #diplomacy
 
@@ -913,7 +917,7 @@ npc_mission_seek_recognition            = 5
 npc_mission_test_waters                 = 6
 npc_mission_non_aggression              = 7
 npc_mission_rejoin_when_possible        = 8
-
+npc_mission_ally_request                = 9
 #Number of routed agents after battle ends.
 slot_troop_player_routed_agents                 = 146
 slot_troop_ally_routed_agents                   = 147

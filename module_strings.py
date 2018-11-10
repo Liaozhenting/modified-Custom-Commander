@@ -1,4 +1,4 @@
-# -*- coding: cp1254 -*-
+# -- coding: utf-8 --
 ## CC
 from module_skills import *
 ## CC
@@ -4409,5 +4409,9 @@ We apologize sincerely if you contributed your suggestions and feedback but were
   ("hint_16", "You can leave any location instantly by pressing the tab key."),
   ("hint_17", "You can hold down the shift key to zoom-in while aiming at distant enemies."),
   ("strings_end", "Strings end"),
+  # 同盟
+  ("your_ally_", "Your ally "),
+  ("s5_has_a_ally_with_s14_", "{s21}^* {s5} has a ally with {s14}. "),
+  ("seek_an_ally", "seek an ally"),
 ## CC
 ]

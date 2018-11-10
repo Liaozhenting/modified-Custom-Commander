@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 from header_common import *
 from header_operations import *
 from header_mission_templates import *
@@ -435,7 +436,8 @@ custom_commander_camera = (
       (assign, "$g_camera_state", 0),
     (try_end),
   ])
-  
+
+# 玩家被击倒后自由视角  
 ## MadVader deathcam begin
 common_init_deathcam = (
   0, 0, ti_once,
@@ -1710,6 +1712,7 @@ custom_commander_main_hero_fallen_info = (
     # (display_message, "@{reg3}, {reg4}      {reg5}, {reg6}"),
    # ])
 
+# 触发器？
 custom_commander_commom_triggers = [
     # custom_commander_camera,
     common_init_deathcam,
@@ -2809,7 +2812,7 @@ common_siege_assign_men_to_belfry = (
     (call_script, "script_cf_siege_assign_men_to_belfry"),
     ], [])
  
-
+# 比赛场景触发器？
 tournament_triggers = [
   (ti_before_mission_start, 0, 0, [], [(call_script, "script_change_banners_and_chest"),
                                        (assign, "$g_arena_training_num_agents_spawned", 0)]),

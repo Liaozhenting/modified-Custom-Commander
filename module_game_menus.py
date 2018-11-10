@@ -1,3 +1,4 @@
+# -- coding: utf-8 --
 from header_game_menus import *
 from header_parties import *
 from header_items import *
@@ -4782,6 +4783,7 @@ game_menus = [
      (call_script, "script_party_count_fit_regulars", "p_main_party"),
      (assign, "$playerparty_postbattle_regulars", reg0),
      
+     # 战后结果
      (try_begin),
        (eq, "$g_battle_result", 1),
        (eq, "$g_enemy_fit_for_battle", 0),
@@ -4793,6 +4795,7 @@ game_menus = [
          (set_background_mesh, "mesh_pic_victory"),
        (try_end),
        #cc+46
+       # 自动加参战领主好感
        (try_for_range, ":troop_no", heroes_begin, heroes_end),
          (troop_slot_eq, ":troop_no", slot_troop_occupation, slto_kingdom_hero),
          (store_faction_of_troop, ":faction_no", ":troop_no"),
@@ -17083,7 +17086,161 @@ game_menus = [
        ),
     ]
   ),
+  # 结盟菜单
+    (
+    "notification_ally_declared",0,
+    "Ally Agreement^^{s1} and {s2} have made ally!^{s57}",
+    "none",
+    [
+
+          (try_begin),
+                (eq, 1, 0), #Alas, this does not seem to work
+                (eq, "$g_include_diplo_explanation", "$g_notification_menu_var1"),
+                (assign, "$g_include_diplo_explanation", 0),
+          (else_try),
+            (str_clear, s57),
+          (try_end),
+        
+          (str_store_faction_name, s1, "$g_notification_menu_var1"),
+      (str_store_faction_name, s2, "$g_notification_menu_var2"),
+      (set_fixed_point_multiplier, 100),
+      (position_set_x, pos0, 65),
+      (position_set_y, pos0, 30),
+      (position_set_z, pos0, 170),
+      (store_sub, ":faction_1", "$g_notification_menu_var1", kingdoms_begin),
+      (store_sub, ":faction_2", "$g_notification_menu_var2", kingdoms_begin),
+      (val_mul, ":faction_1", 128),
+      (val_add, ":faction_1", ":faction_2"),
+      (set_game_menu_tableau_mesh, "tableau_2_factions_mesh", ":faction_1", pos0),
+      ],
+    [
+      ("continue",[],"Continue...",
+       [(change_screen_return),
+        ]),
+     ]
+  ),##LZS
   
+  (
+    "notification_ally_cancelled",0,
+    "Allies Break Up ^^{s1} and {s2} have cancelled the ally relationship!^{s57}",
+    "none",
+    [
+
+          (try_begin),
+                (eq, 1, 0), #Alas, this does not seem to work
+                (eq, "$g_include_diplo_explanation", "$g_notification_menu_var1"),
+                (assign, "$g_include_diplo_explanation", 0),
+          (else_try),
+            (str_clear, s57),
+          (try_end),
+        
+          (str_store_faction_name, s1, "$g_notification_menu_var1"),
+      (str_store_faction_name, s2, "$g_notification_menu_var2"),
+      (set_fixed_point_multiplier, 100),
+      (position_set_x, pos0, 65),
+      (position_set_y, pos0, 30),
+      (position_set_z, pos0, 170),
+      (store_sub, ":faction_1", "$g_notification_menu_var1", kingdoms_begin),
+      (store_sub, ":faction_2", "$g_notification_menu_var2", kingdoms_begin),
+      (val_mul, ":faction_1", 128),
+      (val_add, ":faction_1", ":faction_2"),
+      (set_game_menu_tableau_mesh, "tableau_2_factions_mesh", ":faction_1", pos0),
+      ],
+    [
+      ("continue",[],"Continue...",
+       [(change_screen_return),
+        ]),
+     ]
+  ),###LZS
+
+  (
+    "question_ally_offer",0,
+    "You Receive an ally Offer^^The {s1} offers you an ally agreement. What is your answer?",
+    "none",
+    [
+      (str_store_faction_name, s1, "$g_notification_menu_var1"),
+      (set_fixed_point_multiplier, 100),
+      (position_set_x, pos0, 65),
+      (position_set_y, pos0, 30),
+      (position_set_z, pos0, 170),
+      (set_game_menu_tableau_mesh, "tableau_faction_note_mesh_banner", "$g_notification_menu_var1", pos0),
+      ],
+    [
+      ("peace_offer_accept",[],"Accept",
+       [
+                (assign, ":kingdom", "$g_notification_menu_var1"),
+        (call_script, "script_change_player_relation_with_faction", ":kingdom", 20),
+                (store_relation, ":relation", ":kingdom", "fac_player_supporters_faction"),
+                (val_add,":relation",20),
+                (set_relation, ":kingdom", "fac_player_supporters_faction", ":relation"),
+                
+                (faction_set_slot, "fac_player_supporters_faction", slot_faction_ally, ":kingdom"),
+                (faction_set_slot, ":kingdom", slot_faction_ally, "fac_player_supporters_faction"),
+                (call_script, "script_exchange_prisoners_between_factions", ":kingdom", "fac_player_supporters_faction"),
+
+                (call_script, "script_event_kingdom_make_ally_with_kingdom", ":kingdom", "fac_player_supporters_faction"), #event cancels certain quests
+                (call_script, "script_event_kingdom_make_ally_with_kingdom", "fac_player_supporters_faction", ":kingdom"), #event cancels certain quests
+                
+       (try_begin),
+   (ge, "$g_player_besiege_town", 0),
+   (party_is_active, "$g_player_besiege_town"),
+   (store_faction_of_party, ":besieged_center_faction_no", "$g_player_besiege_town"),
+   (this_or_next|eq, ":besieged_center_faction_no", ":kingdom"),
+   (eq, ":besieged_center_faction_no", "fac_player_supporters_faction"),
+   (call_script, "script_lift_siege", "$g_player_besiege_town", 0),
+   (assign, "$g_player_besiege_town", -1),
+   (assign, "$g_recalculate_ais", 1),
+   (call_script, "script_add_notification_menu", "mnu_notification_ally_declared", ":kingdom", "fac_player_supporters_faction"), 
+  (try_end),
+                (change_screen_map),
+        ]),
+      ("peace_offer_reject",[],"Reject",
+       [
+                 (assign, ":kingdom", "$g_notification_menu_var1"),
+         (call_script, "script_change_player_relation_with_faction", "$g_notification_menu_var1", -5),
+                 (store_relation, ":relation", ":kingdom", "fac_player_supporters_faction"),
+                 (val_sub,":relation",10),
+                 (set_relation, ":kingdom", "fac_player_supporters_faction", ":relation"),
+        (change_screen_map),
+        ]),
+     ]
+  ),
+  
+  
+  (
+    "question_ally_ask_help",0,
+    "You Receive a Ally Helping ask^^Your ally {s1} ask you to against {s2} . What is your answer?",
+    "none",
+    [
+      (str_store_faction_name, s1, "$player_ally"),
+          (str_store_faction_name, s2, "$ally_enemy"),
+      (set_fixed_point_multiplier, 100),
+      (position_set_x, pos0, 65),
+      (position_set_y, pos0, 30),
+      (position_set_z, pos0, 170),
+      (store_sub, ":faction_1", "$player_ally", kingdoms_begin),
+      (store_sub, ":faction_2", "$ally_enemy", kingdoms_begin),
+      (val_mul, ":faction_1", 128),
+      (val_add, ":faction_1", ":faction_2"),
+      (set_game_menu_tableau_mesh, "tableau_2_factions_mesh", ":faction_1", pos0),
+      ],
+    [
+      ("peace_offer_accept",[],"Accept",
+       [
+                        (call_script, "script_change_player_relation_with_faction", "$ally_enemy", -50),
+                        (call_script, "script_change_player_relation_with_faction", "$player_ally", 20),
+                        (call_script, "script_diplomacy_start_war_between_kingdoms", "fac_player_supporters_faction", "$ally_enemy", 1),        
+                        (change_screen_return),
+        ]),
+      ("peace_offer_reject",[],"Reject",
+       [
+         (call_script, "script_change_player_relation_with_faction", "$player_ally", -100),
+                 (faction_set_slot, "fac_player_supporters_faction", slot_faction_ally, -1),
+                 (display_message, "@You and {s1} are no longer allies."),
+         (change_screen_return),
+        ]),
+     ]
+  ),
  ]
 
  

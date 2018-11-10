@@ -3455,5 +3455,8 @@ str_hint_15 = 3453
 str_hint_16 = 3454
 str_hint_17 = 3455
 str_strings_end = 3456
+str_your_ally_ = 3457
+str_s5_has_a_ally_with_s14_ = 3458
+str_seek_an_ally = 3459
 
 

@@ -236,3 +236,7 @@ menu_bandit_heroe_spawned = 234
 menu_world_map_precision = 235
 menu_battlefield_size = 236
 menu_walled_center_recruit_troops = 237
+menu_notification_ally_declared = 238
+menu_notification_ally_cancelled = 239
+menu_question_ally_offer = 240
+menu_question_ally_ask_help = 241

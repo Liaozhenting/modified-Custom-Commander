@@ -1,4 +1,4 @@
-# -*- coding: cp1254 -*-
+# -- coding: utf-8 --
 from header_common import *
 from header_dialogs import *
 from header_operations import *
@@ -4408,12 +4408,80 @@ dialogs = [
     (ge, ":relation", 0),],
    "That I wish to express my goodwill, as one monarch to another.", "minister_diplomatic_emissary",
    [(assign, "$g_initiative_selected", npc_mission_seek_recognition),]],
- 
+  # 设立同盟
   [anyone|plyr, "minister_diplomatic_initiative_type_select",
    [(store_relation, ":relation", "fac_player_supporters_faction", "$g_faction_selected"),
+    (ge, ":relation", 50),
+        (neg|faction_slot_eq, "fac_player_supporters_faction", slot_faction_ally, "$g_faction_selected"),
+        ],
+   "That our two kingdoms should enter into ally.", "minister_diplomatic_emissary",
+   [
+   (assign, "$g_initiative_selected", npc_mission_ally_request),
+   ]],####LZS
+  
+  [anyone|plyr, "minister_diplomatic_initiative_type_select",
+   [
+   (faction_slot_eq, "fac_player_supporters_faction", slot_faction_ally, "$g_faction_selected"),
+   ],
+   "That I will cancel the ally with him.", "minister_cancel_ally",
+   []],
+   
+  [anyone|plyr, "minister_diplomatic_initiative_type_select",
+   [(store_relation, ":relation", "fac_player_supporters_faction", "$g_faction_selected"),
+        (neg|faction_slot_eq, "fac_player_supporters_faction", slot_faction_ally, "$g_faction_selected"),
     (ge, ":relation", 0),],
    "That I declare war upon him.", "minister_declare_war",
    []],
+
+  [anyone, "minister_cancel_ally",
+   [], "Are you sure about that? It will hurt the relation between two kingdoms badly.", "minister_cancel_ally_confirm",
+   []],
+
+  [anyone|plyr, "minister_cancel_ally_confirm",
+   [(str_store_faction_name, s12, "$g_faction_selected"),
+   ],
+   "It is. I wish to end the ally relation with {s12}.", "minister_cancel_ally_confirm_yes",
+   [
+    (call_script, "script_cf_cancel_ally",  "fac_player_supporters_faction", "$g_faction_selected"),
+        ]],
+
+  [anyone|plyr, "minister_cancel_ally_confirm",
+   [(str_store_faction_name, s12, "$g_faction_selected"),
+   ],
+   "Hmm. Perhaps not.", "minister_pretalk",
+   [
+        ]],
+   
+  [anyone, "minister_cancel_ally_confirm_yes",
+   [(str_store_faction_name, s12, "$g_faction_selected"),
+   ],
+   "As you command. We are now ending the ally relation with {s12}. ", "minister_pretalk",
+   [
+        ]],
+
+  [anyone, "companion_embassy_results", [
+                    (troop_slot_eq, "$g_talk_troop", slot_troop_current_mission, npc_mission_ally_request),
+     (troop_get_slot, ":mission_object", "$g_talk_troop", slot_troop_mission_object),
+     (store_relation, ":relation", "fac_player_supporters_faction",":mission_object"),
+     (lt, ":relation", 30),
+        (faction_get_slot, ":emissary_object", ":mission_object", slot_faction_leader),
+        (str_store_troop_name, s12, ":emissary_object"),
+     
+  ],     
+   "{s12} says that he need a deeper consideration.","companion_rejoin_response", [
+     ]],
+     
+  [anyone, "companion_embassy_results", [
+        (troop_get_slot, ":mission_object", "$g_talk_troop", slot_troop_mission_object),
+                    (troop_slot_eq, "$g_talk_troop", slot_troop_current_mission, npc_mission_ally_request), 
+     (store_relation, ":relation", "fac_player_supporters_faction",":mission_object"),
+     (ge, ":relation", 50),
+        (faction_get_slot, ":emissary_object", ":mission_object", slot_faction_leader),
+        (str_store_troop_name, s12, ":emissary_object"),
+     (call_script,"script_diplomacy_start_ally_between_kingdoms", "fac_player_supporters_faction", ":mission_object"),     
+  ],     
+   "{s12} says that he is willing to make ally with you.","companion_rejoin_response", [
+     ]],
  
   [anyone|plyr, "minister_diplomatic_initiative_type_select",[], "Never mind", "close_window",[]],
 
@@ -4484,8 +4552,11 @@ dialogs = [
 		(eq, "$g_initiative_selected", npc_mission_pledge_vassal),
 		(str_store_string, s14, "str_seek_vassalhood"),
    (else_try),
-		(eq, "$g_initiative_selected", npc_mission_peace_request),
-		(str_store_string, s14, "str_seek_a_truce"),
+		 (eq, "$g_initiative_selected", npc_mission_peace_request),
+		 (str_store_string, s14, "str_seek_a_truce"),
+    (else_try),
+     (eq, "$g_initiative_selected", npc_mission_ally_request),
+     (str_store_string, s14, "str_seek_an_ally"),
    (try_end),
    ], "Very well -- I shall send {s11} to the {s12} to {s14}.", "minister_diplomatic_dispatch_confirm",[]],
 
@@ -5467,6 +5538,7 @@ dialogs = [
 #                     (eq, "$npc_map_talk_context", slot_troop_days_on_mission), 
                      (troop_get_slot, ":mission", "$g_talk_troop", slot_troop_current_mission), 
 					 (this_or_next|eq, ":mission", npc_mission_peace_request),
+              (this_or_next|eq, ":mission", npc_mission_ally_request),
 					 (this_or_next|eq, ":mission", npc_mission_pledge_vassal),
 					 (this_or_next|eq, ":mission", npc_mission_test_waters),
 					 (this_or_next|eq, ":mission", npc_mission_non_aggression),
