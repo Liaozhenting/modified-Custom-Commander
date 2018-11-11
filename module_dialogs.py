@@ -4393,7 +4393,8 @@ dialogs = [
 
   [anyone|plyr, "minister_diplomatic_initiative_type_select",
    [(store_relation, ":relation", "fac_player_supporters_faction", "$g_faction_selected"),
-    (lt, ":relation", 0),],
+    # 选项跟结盟有冲突
+    (lt, ":relation", 999),],
    "That our two kingdoms should enter into truce.", "minister_diplomatic_emissary",
    [(assign, "$g_initiative_selected", npc_mission_peace_request)]],
 
@@ -4408,7 +4409,7 @@ dialogs = [
     (ge, ":relation", 0),],
    "That I wish to express my goodwill, as one monarch to another.", "minister_diplomatic_emissary",
    [(assign, "$g_initiative_selected", npc_mission_seek_recognition),]],
-  # 设立同盟
+  # 结盟使者选项 start
   [anyone|plyr, "minister_diplomatic_initiative_type_select",
    [(store_relation, ":relation", "fac_player_supporters_faction", "$g_faction_selected"),
     (ge, ":relation", 50),
@@ -4483,6 +4484,7 @@ dialogs = [
    "{s12} says that he is willing to make ally with you.","companion_rejoin_response", [
      ]],
  
+  # 结盟使者选项 end
   [anyone|plyr, "minister_diplomatic_initiative_type_select",[], "Never mind", "close_window",[]],
 
   [anyone, "minister_declare_war",
@@ -4549,14 +4551,15 @@ dialogs = [
 		(eq, "$g_initiative_selected", npc_mission_seek_recognition),
 		(str_store_string, s14, "str_seek_recognition"),
    (else_try),
+     (eq, "$g_initiative_selected", npc_mission_ally_request),
+     (str_store_string, s14, "str_seek_an_ally"), 
+   (else_try),
 		(eq, "$g_initiative_selected", npc_mission_pledge_vassal),
 		(str_store_string, s14, "str_seek_vassalhood"),
    (else_try),
 		 (eq, "$g_initiative_selected", npc_mission_peace_request),
 		 (str_store_string, s14, "str_seek_a_truce"),
-    (else_try),
-     (eq, "$g_initiative_selected", npc_mission_ally_request),
-     (str_store_string, s14, "str_seek_an_ally"),
+
    (try_end),
    ], "Very well -- I shall send {s11} to the {s12} to {s14}.", "minister_diplomatic_dispatch_confirm",[]],
 
@@ -5485,7 +5488,7 @@ dialogs = [
 
 					
 	[anyone, "event_triggered", [
-	    (store_conversation_troop, "$map_talk_troop"),
+	  (store_conversation_troop, "$map_talk_troop"),
 		(is_between, "$map_talk_troop", companions_begin, companions_end),		
 	    (eq, "$map_talk_troop", "$npc_to_rejoin_party"), 
 	#                     (eq, "$npc_map_talk_context", slot_troop_days_on_mission), 
@@ -5531,31 +5534,31 @@ dialogs = [
 
 					
   [anyone, "event_triggered", [
-                     (store_conversation_troop, "$map_talk_troop"),
-					 (is_between, "$map_talk_troop", companions_begin, companions_end),
+    (store_conversation_troop, "$map_talk_troop"),
+		(is_between, "$map_talk_troop", companions_begin, companions_end),
 					 
-                     (eq, "$map_talk_troop", "$npc_to_rejoin_party"), 
-#                     (eq, "$npc_map_talk_context", slot_troop_days_on_mission), 
-                     (troop_get_slot, ":mission", "$g_talk_troop", slot_troop_current_mission), 
-					 (this_or_next|eq, ":mission", npc_mission_peace_request),
-              (this_or_next|eq, ":mission", npc_mission_ally_request),
-					 (this_or_next|eq, ":mission", npc_mission_pledge_vassal),
-					 (this_or_next|eq, ":mission", npc_mission_test_waters),
-					 (this_or_next|eq, ":mission", npc_mission_non_aggression),
-						(eq, ":mission", npc_mission_seek_recognition),
-						
-					 (troop_get_slot, ":string", "$map_talk_troop", slot_troop_honorific),
-                     (str_store_string, 21, ":string"),
-					 (troop_get_slot, ":mission_object", "$g_talk_troop", slot_troop_mission_object),
-					 (str_store_faction_name, s31, ":mission_object"),
-					 
-					 (call_script, "script_npc_decision_checklist_peace_or_war", ":mission_object", "fac_player_supporters_faction", "$g_talk_troop"),
-					 (assign, "$g_mission_result", reg0),
+    (eq, "$map_talk_troop", "$npc_to_rejoin_party"), 
+#   (eq, "$npc_map_talk_context", slot_troop_days_on_mission), 
+    (troop_get_slot, ":mission", "$g_talk_troop", slot_troop_current_mission), 
+		(this_or_next|eq, ":mission", npc_mission_peace_request),
+    (this_or_next|eq, ":mission", npc_mission_ally_request),
+		(this_or_next|eq, ":mission", npc_mission_pledge_vassal),
+		(this_or_next|eq, ":mission", npc_mission_test_waters),
+		(this_or_next|eq, ":mission", npc_mission_non_aggression),
+		(eq, ":mission", npc_mission_seek_recognition),
+		
+		(troop_get_slot, ":string", "$map_talk_troop", slot_troop_honorific),
+    (str_store_string, 21, ":string"),
+		(troop_get_slot, ":mission_object", "$g_talk_troop", slot_troop_mission_object),
+		(str_store_faction_name, s31, ":mission_object"),
+		
+		(call_script, "script_npc_decision_checklist_peace_or_war", ":mission_object", "fac_player_supporters_faction", "$g_talk_troop"),
+		(assign, "$g_mission_result", reg0),
 
-					 
-                     ],
+		
+    ],
    "Well, {s21}, at last I've found you. I have returned from my mission to {s31}. In general, I would say, {s14}.","companion_embassy_results", [
-					]],
+	]],
 
   [anyone, "companion_embassy_results", [
                    (troop_slot_eq, "$g_talk_troop", slot_troop_current_mission, npc_mission_seek_recognition), 
