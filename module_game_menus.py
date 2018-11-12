@@ -17087,7 +17087,7 @@ game_menus = [
     ]
   ),
   # 结盟菜单
-    (
+  (
     "notification_ally_declared",0,
     "Ally Agreement^^{s1} and {s2} have made ally!^{s57}",
     "none",
@@ -17241,6 +17241,7 @@ game_menus = [
         ]),
      ]
   ),
+
  ]
 
  
